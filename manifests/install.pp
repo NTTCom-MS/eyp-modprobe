@@ -1,3 +1,4 @@
+# puppet2sitepp @modprobeinstall
 define modprobe::install(
                           $ensure     = 'present',
                           $filename   = $name,
@@ -5,6 +6,7 @@ define modprobe::install(
                           $command    = '/bin/true',
                           $order      = '00',
                         ) {
+  include ::modprobe
 
   if(! defined(Concat["/etc/modprobe.d/${filename}.conf"]))
   {
@@ -19,7 +21,7 @@ define modprobe::install(
 
   if($ensure == 'present')
   {
-    concat::fragment{ "/etc/modprobe.d/${filename}.conf ${modulename}":
+    concat::fragment{ "/etc/modprobe.d/${filename}.conf install ${modulename}":
       target  => "/etc/modprobe.d/${filename}.conf",
       order   => $order,
       content => "install ${modulename} ${command}\n",

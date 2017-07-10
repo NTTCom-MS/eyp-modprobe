@@ -34,6 +34,11 @@ describe 'modprobe class' do
       modprobe::install { 'vfat':
         filename => 'CIS',
       }
+      modprobe::option { 'ipv6':
+        option => 'disable',
+        option_value => '1',
+        filename => 'CIS',
+      }
       EOF
 
       # Run it twice and test for idempotency
@@ -51,6 +56,7 @@ describe 'modprobe class' do
       its(:content) { should match 'install squashfs /bin/true' }
       its(:content) { should match 'install udf /bin/true' }
       its(:content) { should match 'install vfat /bin/true' }
+      its(:content) { should match 'options ipv6 disable=1' }
     end
 
   end
